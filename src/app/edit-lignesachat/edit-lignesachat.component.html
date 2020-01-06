@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Edition de ligne Article:</div>
+    <div class="panel-body" *ngIf="currentligneAchat">
+      <form #f="ngForm" (ngSubmit)="onUpdateLigneAchat(f.value)">
+        <div class="form-group">
+          <label class="control-label"> IdAchat : </label>
+          <input class="form-control" type="text" name="id_achat" ngModel [(ngModel)]="currentligneAchat.id_achat">
+        </div>
+        <div class="form-group">
+          <label class="control-label"> IdArticle : </label>
+          <input class="form-control" type="text" name="id_article" ngModel [(ngModel)]="currentligneAchat.id_article">
+        </div>
+        <div class="form-group">
+          <label class="control-label"> QUANTITE : </label>
+          <input class="form-control" type="number" name="quantite" ngModel [(ngModel)]="currentligneAchat.quantite">
+        </div>
+        <button class="btn btn-success" type="submit">UPDATE</button>
+      </form>
+    </div>
+  </div>
+</div>

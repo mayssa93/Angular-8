@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-heading">Edition Article:</div>
+    <div class="panel-body" *ngIf="currentArticle">
+      <form #f="ngForm" (ngSubmit)="onUpdateArticle(f.value)">
+        <div class="form-group">
+          <label class="control-label"> LIBELLE: </label>
+          <input class="form-control" type="text" name="libel" ngModel [(ngModel)]="currentArticle.libel">
+        </div>
+        <div class="form-group">
+          <label class="control-label"> REFERENCE : </label>
+          <input class="form-control" type="text" name="reference" ngModel [(ngModel)]="currentArticle.reference">
+        </div>
+        <div class="form-group">
+          <label class="control-label"> PRIX ACHAT HT : </label>
+          <input class="form-control" type="text" name="prix_achatht" ngModel [(ngModel)]="currentArticle.prix_achatht">
+        </div>
+        <div class="form-group">
+          <label class="control-label"> STOCK : </label>
+          <input class="form-control" type="number" name="stock" ngModel [(ngModel)]="currentArticle.stock">
+        </div>
+        <button class="btn btn-success" type="submit">UPDATE</button>
+      </form>
+    </div>
+  </div>
+</div>

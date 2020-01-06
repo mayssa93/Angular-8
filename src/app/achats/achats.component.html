@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="panel panel-primary">
+    <div class="panel-heading">Liste des achats</div>
+    <div class="panel-body">
+      <form #f="ngForm" (ngSubmit)="onChercher1(f.value)">
+        <div class="form-group">
+          <label>Keyword : </label>
+          <input type="text" name="keyword" ngModel>
+          <button type="submit" class="btn btn-primary">
+            <span class="glyphicon glyphicon-search"></span>
+            Chercher
+          </button>
+        </div>
+      </form>
+      <table *ngIf="achats" class="table table-striped">
+        <tr>
+         <th>IDENTIFIANT</th><th>DATE</th><th>TOTALHT</th><th>REMISE</th>
+        </tr>
+        <tr *ngFor="let ac of achats._embedded.achats">
+          <td>{{ac.id}}</td>
+          <td>{{ac.date}}</td>
+          <td>{{ac.totalHT|number:'0.2'}}</td>
+          <td>{{ac.remise|number:'0.2'}}</td>
+          <td><a class="btn btn-success"(click)="onEditAchat(ac)"><span class="glyphicon glyphicon-edit"></span> EDIT</a></td>
+          <td><a class="btn btn-danger"(click)="onDeleteAchat(ac)"><span class="glyphicon glyphicon-erase"></span> DELETE</a></td>
+        </tr>
+      </table>
+      <ul *ngIf="pages" class="nav nav-pills">
+        <li class="clickable" [ngClass]="i==currentPage?'active':''" *ngFor="let ac of pages; let i=index">
+          <a  (click)="onPageAchats(i)">{{i}}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
