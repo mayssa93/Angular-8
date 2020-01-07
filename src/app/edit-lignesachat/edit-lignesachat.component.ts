@@ -12,25 +12,30 @@ export class EditLignesachatComponent implements OnInit {
 
   public currentligneAchat:ligneAchat;
   public url: string;
-
+  id: number;
   constructor(private router:Router, private activatedRoute:ActivatedRoute, private catService2:Catalogue2Service) { }
 
   ngOnInit() {
-  this.url=atob(this.activatedRoute.snapshot.params.id);
-    this.catService2.getRessource(this.url)
-      .subscribe(data=>{
-        this.currentligneAchat=data;
-      },err=>{
-        console.log(err);
-      })
+    this.currentligneAchat = new ligneAchat();
+    this.id = this.activatedRoute.snapshot.params['id'];
+    this.catService2.getAchats(this.id)
+      .subscribe(data => {
+        console.log(data)
+        this.currentligneAchat = data;
+      }, error => console.log(error));
   }
-  onUpdateLigneAchat(value: any) {
-    this.catService2.updateRessource(this.url,value)
-      .subscribe(data=>{
-        alert("Mise à jour effectué avec succès");
-        this.router.navigateByUrl("/lignesachat");
-      },err=>{
-        console.log(err);
-      })
-  }
+  onUpdateLigneAchat() {
+    this.catService2.updateRessource(this.id,this.currentligneAchat)
+      .subscribe(data => console.log(data), error => console.log(error));
+    this.currentligneAchat= new ligneAchat();
+    this.gotoList();
+}
+
+onSubmit() {
+  this.onUpdateLigneAchat();
+}
+
+gotoList() {
+  this.router.navigate(['/lignesachat']);
+}
 }

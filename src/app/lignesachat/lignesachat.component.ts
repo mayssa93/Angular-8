@@ -9,23 +9,21 @@ import {ligneAchat} from "../model/ligneAchat";
   styleUrls: ['./lignesachat.component.css']
 })
 export class LignesachatComponent implements OnInit {
-  public lignesachat:any;
   public size: number=5;
   public currentPage: number=0;
   public totalPages: number;
   public pages:Array<number>;
   public currentkeyword:string="";
   public errorMsg;
-  public achat:any;
+ public ligneachats: Observable<ligneAchat>;
   constructor(private catService2:Catalogue2Service, private router:Router) { }
   ngOnInit() {
+  this.reloadData();
+  }
+ reloadData() {
+  this.ligneachats = this.catService2.getLigneachatsList();
+  }
 
-  }
-  onGetAchats() {
-   this.catService2.getligneAchats()
-     .subscribe(data=> this.lignesachat=data,
-                      error=>this.errorMsg=error);
-  }
   onPageLigneAchats(i: number) {
     this.currentPage=i;
     this.chercherLigneAchats();
@@ -36,27 +34,28 @@ export class LignesachatComponent implements OnInit {
     this.chercherLigneAchats();
   }
   chercherLigneAchats() {
-    this.catService2.getligneAchats()
+    this.catService2.getLigneachatsList()
       .subscribe(data=>{
         this.totalPages=data["page"].totalPages;
         this.pages= new Array<number>(this.totalPages);
-        this.lignesachat=data;
+        this.ligneachats=data;
       },err=>{
         console.log(err);
       });
   }
-  onDeleteLigneAchat(la) {
+  onDeleteLigneAchat(id: number) {
     let conf=confirm("Etes vous sure?");
     if (conf)
-      this.catService2.deleteRessource(la._links.self.href)
+      this.catService2.deleteRessource(id)
         .subscribe(data=>{
-            this.chercherLigneAchats();
+            this.reloadData;
           },err=>{
             console.log(err);
           }
         )
   }
-  onGetAchatLigneAchat(la) {
+
+ /* onGetAchatLigneAchat(la) {
       this.catService2.getRessource(la._links.achat.href)
         .subscribe(data=>{
             this.achat=data;
@@ -64,9 +63,8 @@ export class LignesachatComponent implements OnInit {
             console.log(err);
           }
         )
-  }
-  onEditLigneAchat(la) {
-    let url=la._links.self.href;
-    this.router.navigateByUrl("/edit-lignesAchat/"+btoa(url));
+  }*/
+  onEditLigneAchat(id:number) {
+    this.router.navigate(['edit-lignesAchat',id]);
   }
   }

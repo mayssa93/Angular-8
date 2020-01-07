@@ -9,27 +9,30 @@ import {ligneAchat} from "../model/ligneAchat";
   styleUrls: ['./new-lignesachat.component.css']
 })
 export class NewLignesachatComponent implements OnInit {
-  public currentligneAchat: ligneAchat;
-  public mode: number=1;
-
+  currentligneAchat: ligneAchat = new ligneAchat();
+  submitted = false;
   constructor(private catService2:Catalogue2Service, private router:Router) { }
 
   ngOnInit() {
   }
 
-  onSaveLigneAchat(data: any) {
-    this.catService2.saveRessource(this.catService2.host+"/ligneAchats",data)
-      .subscribe(res=>{
-        //this.router.navigateByUrl("/products");
-        this.currentligneAchat=res;
-        this.mode=2;
-      },err=>{
-        console.log(err);
-      })
+  newEmployee(): void {
+    this.submitted = false;
+    this.currentligneAchat = new ligneAchat();
   }
 
-  onNewLigneAchat() {
-    this.mode=1;
+  save() {
+    this.catService2.createEmployee(this.currentligneAchat)
+      .subscribe(data => console.log(data), error => console.log(error));
+    this.currentligneAchat = new ligneAchat();
+    this.gotoList();
+  }
+  onSubmit() {
+    this.submitted = true;
+    this.save();
   }
 
+  gotoList() {
+    this.router.navigate(['lignesachat']);
+  }
 }

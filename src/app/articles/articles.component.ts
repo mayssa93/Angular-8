@@ -42,8 +42,7 @@ export class ArticlesComponent implements OnInit {
   chercherArticles() {
     this.catService.getArticlesByKeyword(this.currentkeyword,this.currentPage,this.size)
       .subscribe(data=>{
-        this.totalPages=data["page"].totalPages;
-        this.pages= new Array<number>(this.totalPages);
+          this.pages= new Array<number>(this.totalPages);
           this.articles=data;
       },err=>{
         console.log(err);

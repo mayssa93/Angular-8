@@ -2,7 +2,7 @@
   <div class="panel panel-primary">
     <div class="panel-heading">Liste des lignes-Achats</div>
     <div class="panel-body">
-      <form #f="ngForm" (ngSubmit)="onChercher(f.value)">
+      <form #f="ngForm" (ngSubmit)="reloadData()">
         <div class="form-group">
           <label>Keyword : </label>
           <input type="text" name="keyword" ngModel>
@@ -12,21 +12,21 @@
           </button>
         </div>
       </form>
-      <table *ngIf="lignesachat" class="table table-striped">
+      <table *ngIf="ligneachats" class="table table-striped">
         <tr>
-         <th>IDENTIFIANT</th><th>IDENTIFIANT-ACHAT</th><th>IDENTIFIANT-ARTICLE</th><th>QUANTITE</th>
+         <th>IDENTIFIANT</th><th>IDENTIFIANT-ACHAT</th><th>LIBELLE-ARTICLE</th><th>QUANTITE</th>
         </tr>
-        <tr *ngFor="let la of lignesachat">
-          <td>{{la.id}}</td>
-          <td >{{la.id_achat}}</td>
-          <td>{{la.id_article}}</td>
-          <td>{{la.quantite}}</td>
-          <td><a class="btn btn-success"(click)="onEditLigneAchat(la)"> <span class="glyphicon glyphicon-edit"></span> EDIT</a></td>
-          <td><a class="btn btn-danger"(click)="onDeleteLigneAchat(la)"><span class="glyphicon glyphicon-erase"></span> DELETE</a></td>
+        <tr *ngFor="let ligneachat of ligneachats|async">
+          <td>{{ligneachat.id}}</td>
+          <td >{{ligneachat.achat.id}}</td>
+          <td>{{ligneachat.article.libel}}</td>
+          <td>{{ligneachat.quantite}}</td>
+          <td><a class="btn btn-success"(click)="onEditLigneAchat(ligneachat.id)"> <span class="glyphicon glyphicon-edit"></span> EDIT</a></td>
+          <td><a class="btn btn-danger"(click)="onDeleteLigneAchat(ligneachat.id)"><span class="glyphicon glyphicon-erase"></span> DELETE</a></td>
         </tr>
       </table>
       <ul *ngIf="pages" class="nav nav-pills">
-        <li class="clickable" [ngClass]="i==currentPage?'active':''" *ngFor="let la of pages; let i=index">
+        <li class="clickable" [ngClass]="i==currentPage?'active':''" *ngFor="let ligneachat of pages; let i=index">
           <a  (click)="onPageLigneAchats(i)">{{i}}</a>
         </li>
       </ul>
